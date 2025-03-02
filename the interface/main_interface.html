@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tín chỉ</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="javascript.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <a onclick="showSection('course-list')">Danh sách môn học</a>
+        <a onclick="showSection('teacher-list')">Giáo viên</a>
+        <a onclick="showSection('schedule')">Thời khóa biểu</a>
+        <a onclick="showSection('registration')">Đăng ký học</a>
+    </div>
+    <div class="content">
+        <div id="course-list" class="course-list">
+            <h2>Danh sách môn học</h2>
+            <ul>
+                <li>Toán cao cấp</li>
+                <li>Lập trình C++</li>
+                <li>Hệ quản trị CSDL</li>
+                <li>Trí tuệ nhân tạo</li>
+            </ul>
+        </div>
+        <div id="teacher-list" class="teacher-list">
+            <h2>Danh sách giáo viên</h2>
+            <ul>
+                <li>Nguyễn Văn A</li>
+                <li>Trần Thị B</li>
+                <li>Phạm Văn C</li>
+                <li>Hoàng Thị D</li>
+            </ul>
+        </div>
+        <div id="schedule" class="schedule">
+            <h2>Thời khóa biểu</h2>
+            <table class="table">
+                <tr>
+                    <th>Thứ</th>
+                    <th>Ca Sáng</th>
+                    <th>Ca Chiều</th>
+                </tr>
+                <tr><td>Thứ 2</td><td>Toán cao cấp</td><td>Lập trình C++</td></tr>
+                <tr><td>Thứ 3</td><td>Hệ quản trị CSDL</td><td>Trí tuệ nhân tạo</td></tr>
+                <tr><td>Thứ 4</td><td>Lập trình C++</td><td>Hệ quản trị CSDL</td></tr>
+                <tr><td>Thứ 5</td><td>Toán cao cấp</td><td>Trí tuệ nhân tạo</td></tr>
+            </table>
+        </div>
+        <div id="registration" class="registration">
+            <h2>Đăng ký học</h2>
+            <div>
+                <input type="checkbox" id="course1"> Toán cao cấp<br>
+                <input type="checkbox" id="course2"> Lập trình C++<br>
+                <input type="checkbox" id="course3"> Hệ quản trị CSDL<br>
+                <input type="checkbox" id="course4"> Trí tuệ nhân tạo<br>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
