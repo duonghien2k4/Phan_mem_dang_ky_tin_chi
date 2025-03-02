@@ -78,7 +78,7 @@
             signInWithEmailAndPassword(auth, email, password)
             .then(() => {
             showMessage("Đăng nhập thành công!");
-            window.location.href = "../interface/main_interface.html"; // Chuyển sang trang đky
+            window.location.href = "../interface/main_interface.html"; // Chuyển sang trang chủ
         })
             .catch(error => showMessage("Lỗi: " + error.message));
         };
