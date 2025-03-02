@@ -12,3 +12,4 @@ function logout() {
 function contactSupport() {
     alert("Liên hệ hỗ trợ qua email: support@example.com");
 }
+

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký tín chỉ</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="javascript.js"></script>
+    <script defer src="javascript.js"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -16,49 +16,132 @@
         <button class="logout-button" onclick="logout()">Đăng xuất</button>
     </div>
     <div class="content">
-        <div id="course-list" class="course-list">
-            <h2>Danh sách môn học</h2>
-            <ul>
-                <li>Toán cao cấp</li>
-                <li>Lập trình C++</li>
-                <li>Hệ quản trị CSDL</li>
-                <li>Trí tuệ nhân tạo</li>
-            </ul>
-        </div>
-        <div id="teacher-list" class="teacher-list">
-            <h2>Danh sách giáo viên</h2>
-            <ul>
-                <li>Nguyễn Văn A</li>
-                <li>Trần Thị B</li>
-                <li>Phạm Văn C</li>
-                <li>Hoàng Thị D</li>
-            </ul>
-        </div>
-        <div id="schedule" class="schedule">
-            <h2>Thời khóa biểu</h2>
-            <table class="table">
-                <tr>
-                    <th>Thứ</th>
-                    <th>Ca Sáng</th>
-                    <th>Ca Chiều</th>
-                </tr>
-                <tr><td>Thứ 2</td><td>Toán cao cấp</td><td>Lập trình C++</td></tr>
-                <tr><td>Thứ 3</td><td>Hệ quản trị CSDL</td><td>Trí tuệ nhân tạo</td></tr>
-                <tr><td>Thứ 4</td><td>Lập trình C++</td><td>Hệ quản trị CSDL</td></tr>
-                <tr><td>Thứ 5</td><td>Toán cao cấp</td><td>Trí tuệ nhân tạo</td></tr>
-            </table>
-        </div>
+        <h2>Chào mừng, <span id="user-email"></span></h2>
         <div id="registration" class="registration">
             <h2>Đăng ký học</h2>
-            <div>
-                <input type="checkbox" id="course1"> Toán cao cấp<br>
-                <input type="checkbox" id="course2"> Lập trình C++<br>
-                <input type="checkbox" id="course3"> Hệ quản trị CSDL<br>
-                <input type="checkbox" id="course4"> Trí tuệ nhân tạo<br>
-            </div>
+            <div id="course-container" class="course-container"></div>
+            <div id="class-container" class="class-container"></div>
+            <h3>Lớp đã đăng ký:</h3>
+            <ul id="registered-classes"></ul>
         </div>
     </div>
 
-    <div class="contact-bubble" onclick="contactSupport()">?</div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, get, child, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDla-CSFtR6-y2vscJjuX6Q0vp0x0TTLT4",
+            authDomain: "dangkytinchi-73b7a.firebaseapp.com",
+            projectId: "dangkytinchi-73b7a",
+            storageBucket: "dangkytinchi-73b7a.appspot.com",
+            databaseURL: "https://dangkytinchi-73b7a-default-rtdb.firebaseio.com",
+            messagingSenderId: "1013393708459",
+            appId: "1:1013393708459:web:21be9269a148ed83386eee"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const auth = getAuth();
+
+        let currentUserEmail = "";
+        let currentUserId = "";
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUserEmail = user.email;
+                currentUserId = user.email.split('@')[0];
+                document.getElementById("user-email").textContent = currentUserEmail;
+                loadCourses();
+                loadRegisteredClasses();
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        function loadCourses() {
+            const courseContainer = document.getElementById("course-container");
+            courseContainer.innerHTML = "";
+            
+            const courses = [
+                { id: "CT101", name: "Lập trình C++" },
+                { id: "CT102", name: "Cấu trúc dữ liệu" }
+            ];
+
+            courses.forEach(course => {
+                const courseBox = document.createElement("div");
+                courseBox.className = "course-box";
+                courseBox.textContent = course.name;
+                courseBox.onclick = () => showClasses(course.id);
+                courseContainer.appendChild(courseBox);
+            });
+        }
+
+        function showClasses(courseId) {
+            const classContainer = document.getElementById("class-container");
+            classContainer.innerHTML = "";
+            
+            const classes = {
+                "CT101": [
+                    { id: "CT101-L1", time: "Thứ 2, 8:00-10:00", teacher: "Nguyễn Văn A" }
+                ],
+                "CT102": [
+                    { id: "CT102-L1", time: "Thứ 4, 8:00-10:00", teacher: "Phạm Văn C" }
+                ]
+            };
+
+            if (classes[courseId]) {
+                classes[courseId].forEach(cls => {
+                    const classBox = document.createElement("div");
+                    classBox.className = "class-box";
+                    classBox.innerHTML = `<strong>${cls.time}</strong><br>Giáo viên: ${cls.teacher}`;
+                    classBox.onclick = () => registerClass(cls.id);
+                    classContainer.appendChild(classBox);
+                });
+            }
+        }
+
+        function registerClass(classId) {
+            const userRef = ref(db, `students/${currentUserId}/registeredClasses/${classId}`);
+            set(userRef, true).then(() => {
+                alert(`Đăng ký thành công lớp ${classId}`);
+                loadRegisteredClasses();
+            });
+        }
+
+        function loadRegisteredClasses() {
+            const registeredList = document.getElementById("registered-classes");
+            registeredList.innerHTML = "";
+            
+            get(ref(db, `students/${currentUserId}/registeredClasses`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const classes = snapshot.val();
+                    Object.keys(classes).forEach(classId => {
+                        const li = document.createElement("li");
+                        li.textContent = classId;
+                        const removeBtn = document.createElement("button");
+                        removeBtn.textContent = "Hủy";
+                        removeBtn.onclick = () => unregisterClass(classId);
+                        li.appendChild(removeBtn);
+                        registeredList.appendChild(li);
+                    });
+                }
+            });
+        }
+
+        function unregisterClass(classId) {
+            remove(ref(db, `students/${currentUserId}/registeredClasses/${classId}`)).then(() => {
+                alert(`Hủy đăng ký lớp ${classId} thành công`);
+                loadRegisteredClasses();
+            });
+        }
+
+        function logout() {
+            signOut(auth).then(() => {
+                window.location.href = "login.html";
+            });
+        }
+    </script>
 </body>
 </html>
