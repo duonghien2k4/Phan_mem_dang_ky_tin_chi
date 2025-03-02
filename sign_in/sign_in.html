@@ -9,22 +9,81 @@
 </head>
 
 <body>
-    <div class="login-container">
+    <div id="login-section" class="login-section">
         <img src="https://phenikaa-uni.edu.vn:3600/md/vi/logo-dh-phenikaa-h-vn_20220217083708.png"
             alt="Phenikaa University">
         <h2>Đăng nhập</h2>
-        <form action="#" method="POST">
-            <input type="text" name="username" placeholder="Nhập email của bạn" required>
-            <input type="password" name="password" placeholder="Nhập mật khẩu" required>
+        <form action="#" method="POST" onsubmit="return false;">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Mật khẩu">
             <div class="buttons">
-                <button type="button" class="btn-secondary">Quay lại</button>
-                <button type="submit" class="btn-primary">Đăng nhập</button>
+                <button type="button" onclick="login()">Đăng nhập</button>
+                <button type="button" onclick="register()">Đăng ký</button>
             </div>
         </form>
         <div class="login-options">
             <p><a href="#">Bạn không truy cập được vào tài khoản?</a></p>
         </div>
     </div>
+
+    <div id="student-info" style="display: none;">
+        <h2>Thông tin sinh viên</h2>
+        <p>Chào mừng bạn!</p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDla-CSFtR6-y2vscJjuX6Q0vp0x0TTLT4",
+            authDomain: "dangkytinchi-73b7a.firebaseapp.com",
+            projectId: "dangkytinchi-73b7a",
+            storageBucket: "dangkytinchi-73b7a.appspot.com",
+            databaseURL: "https://dangkytinchi-73b7a-default-rtdb.firebaseio.com",
+            messagingSenderId: "1013393708459",
+            appId: "1:1013393708459:web:21be9269a148ed83386eee"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        function showMessage(message) {
+            alert(message);
+        }
+
+        window.register = function () {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!email || !password) {
+                showMessage("Vui lòng nhập email và mật khẩu!");
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(() => showMessage("Đăng ký thành công!"))
+                .catch(error => showMessage("Lỗi: " + error.message));
+        };
+
+        window.login = function () {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+        if (!email || !password) {
+            showMessage("Vui lòng nhập email và mật khẩu!");
+        return;
+         }
+
+            signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+            showMessage("Đăng nhập thành công!");
+            window.location.href = "../interface/main_interface.html"; // Chuyển sang trang đky
+        })
+            .catch(error => showMessage("Lỗi: " + error.message));
+        };
+
+    </script>
 </body>
 
 </html>

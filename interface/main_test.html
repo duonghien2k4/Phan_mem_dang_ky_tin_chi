@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký học phần</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #04284d;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #007bff;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ecf0f1;
+        }
+        .hidden {
+            display: none;
+        }
+        .course-list, .teacher-list, .schedule, .registration {
+            display: none;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .table, .table th, .table td {
+            border: 1px solid black;
+            text-align: center;
+            padding: 8px;
+        }
+        .btn-submit {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+        #student-info {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-section">
+        <h2>Đăng nhập</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Mật khẩu">
+        <button onclick="login()">Đăng nhập</button>
+        <button onclick="register()">Đăng ký</button>
+    </div>
+    <div id="student-info">
+        <h3>Thông tin sinh viên</h3>
+        <p><strong>Họ và Tên:</strong> <span id="student-name"></span></p>
+        <p><strong>Mã số sinh viên:</strong> <span id="student-id"></span></p>
+        <p><strong>Tổng lớp đăng ký:</strong> <span id="total-classes"></span></p>
+        <p><strong>Số tín đã đăng ký:</strong> <span id="credits-registered"></span></p>
+        <p><strong>Số tín tối đa trong kỳ:</strong> <span>18</span></p>
+        <p><strong>Số tín tối thiểu trong kỳ:</strong> <span>12</span></p>
+    </div>
+    
+    <div class="sidebar">
+        <a onclick="showSection('course-list')">Danh sách môn học</a>
+        <a onclick="showSection('teacher-list')">Giáo viên</a>
+        <a onclick="showSection('schedule')">Thời khóa biểu</a>
+        <a onclick="showSection('registration')">Đăng ký học phần</a>
+    </div>
+    
+    <div class="content">
+        <div id="course-list" class="course-list">
+            <h2>Danh sách môn học</h2>
+        </div>
+        <div id="teacher-list" class="teacher-list">
+            <h2>Danh sách giáo viên</h2>
+        </div>
+        <div id="schedule" class="schedule">
+            <h2>Thời khóa biểu</h2>
+        </div>
+        <div id="registration" class="registration">
+            <h2>Đăng ký học phần</h2>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDla-CSFtR6-y2vscJjuX6Q0vp0x0TTLT4",
+            authDomain: "dangkytinchi-73b7a.firebaseapp.com",
+            projectId: "dangkytinchi-73b7a",
+            storageBucket: "dangkytinchi-73b7a.appspot.com",
+            databaseURL: "https://dangkytinchi-73b7a-default-rtdb.firebaseio.com",
+            messagingSenderId: "1013393708459",
+            appId: "1:1013393708459:web:21be9269a148ed83386eee"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        window.register = function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(() => alert("Đăng ký thành công!"))
+                .catch(error => alert("Lỗi: " + error.message));
+        };
+
+        window.login = function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    alert("Đăng nhập thành công!");
+                    document.getElementById("login-section").style.display = "none";
+                    document.getElementById("student-info").style.display = "block";
+                })
+                .catch(error => alert("Lỗi: " + error.message));
+        };
+    </script>
+</body>
+</html>
