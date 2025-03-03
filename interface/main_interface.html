@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký tín chỉ</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script defer src="javascript.js"></script>
+    <script defer src="script.js"></script>
 </head>
 <body>
     <div class="sidebar">
+        <a onclick="showSection('student-info')">Thông tin học sinh</a>
         <a onclick="showSection('course-list')">Danh sách môn học</a>
         <a onclick="showSection('teacher-list')">Giáo viên</a>
         <a onclick="showSection('schedule')">Thời khóa biểu</a>
@@ -23,6 +24,18 @@
             <div id="class-container" class="class-container"></div>
             <h3>Lớp đã đăng ký:</h3>
             <ul id="registered-classes"></ul>
+        </div>
+
+        <div id="student-info" class="student-info" style="display: none;">
+            <h2>Thông tin học sinh</h2>
+            <img id="student-avatar" src="default-avatar.png" alt="Avatar" class="avatar">
+            <p><strong>Họ và tên:</strong> <span id="student-name"></span></p>
+            <p><strong>Mã số sinh viên:</strong> <span id="student-id"></span></p>
+            <p><strong>Ngành học:</strong> <span id="student-major"></span></p>
+            <p><strong>Năm học:</strong> <span id="student-year"></span></p>
+            <p><strong>Số tín đã đăng ký:</strong> <span id="credits-registered">0</span></p>
+            <p><strong>Số tín tối thiểu:</strong> <span id="credits-min">12</span></p>
+            <p><strong>Số tín tối đa:</strong> <span id="credits-max">25</span></p>
         </div>
     </div>
 
@@ -53,13 +66,33 @@
                 currentUserEmail = user.email;
                 currentUserId = user.email.split('@')[0];
                 document.getElementById("user-email").textContent = currentUserEmail;
+               
+                loadStudentInfo();
                 loadCourses();
                 loadRegisteredClasses();
             } else {
                 window.location.href = "login.html";
             }
         });
+        function loadStudentInfo() {
+            const studentRef = ref(db, `students/${currentUserId}`);
+            get(studentRef).then(snapshot => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.getElementById("student-name").textContent = data.name || "Chưa cập nhật";
+                    document.getElementById("student-id").textContent = data.studentId || "Chưa cập nhật";
+                    document.getElementById("student-major").textContent = data.major || "Chưa cập nhật";
+                    document.getElementById("student-year").textContent = data.year || "Chưa cập nhật";
+                    document.getElementById("credits-registered").textContent = data.credits || 0;
 
+                    // Kiểm tra và hiển thị ảnh đại diện nếu có
+                    const avatar = document.getElementById("student-avatar");
+                    avatar.src = data.avatar ? data.avatar : "default-avatar.png";
+                }
+            }).catch(error => {
+                console.error("Lỗi khi tải thông tin học sinh:", error);
+            });
+        }
         function loadCourses() {
             const courseContainer = document.getElementById("course-container");
             courseContainer.innerHTML = "";
