@@ -27,15 +27,38 @@
         </div>
 
         <div id="student-info" class="student-info" style="display: none;">
-            <h2>Thông tin học sinh</h2>
-            <img id="student-avatar" src="default-avatar.png" alt="Avatar" class="avatar">
-            <p><strong>Họ và tên:</strong> <span id="student-name"></span></p>
-            <p><strong>Mã số sinh viên:</strong> <span id="student-id"></span></p>
-            <p><strong>Ngành học:</strong> <span id="student-major"></span></p>
-            <p><strong>Năm học:</strong> <span id="student-year"></span></p>
-            <p><strong>Số tín đã đăng ký:</strong> <span id="credits-registered">0</span></p>
-            <p><strong>Số tín tối thiểu:</strong> <span id="credits-min">12</span></p>
-            <p><strong>Số tín tối đa:</strong> <span id="credits-max">25</span></p>
+            <div class="student-info-container">
+                <img id="student-avatar" src="default-avatar.png" alt="Ảnh đại diện" class="avatar">
+                <div class="student-info-content">
+                    <div class="student-info-title">THÔNG TIN CƠ BẢN</div>
+                    <div class="student-info-grid">
+                        <p><strong>Mã SV:</strong> <input type="text" id="student-id" disabled></p>
+                        <p><strong>Họ và đệm:</strong> <input type="text" id="student-lastname" disabled></p>
+                        <p><strong>Ngày sinh:</strong> <input type="date" id="student-dob" disabled></p>
+                        <p><strong>Tên:</strong> <input type="text" id="student-firstname" disabled></p>
+                        <p><strong>Khóa đào tạo:</strong> <input type="text" id="student-course" disabled></p>
+                        <p><strong>Lớp:</strong> <input type="text" id="student-class" disabled></p>
+                        <p><strong>Niên khóa:</strong> <input type="text" id="student-year" disabled></p>
+                        <p><strong>Khoa quản lý:</strong> <input type="text" id="student-faculty" disabled></p>
+                        <p><strong>Email:</strong> <input type="email" id="student-email" disabled></p>
+                        <p><strong>Ngành:</strong> <input type="text" id="student-major" disabled></p>
+                        <p><strong>Giới tính:</strong> 
+                            <select id="student-gender" disabled>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </p>
+                        <p><strong>Hệ đào tạo:</strong> <input type="text" id="student-system" disabled></p>
+                        <p><strong>Trạng thái:</strong> <input type="text" id="student-status" disabled></p>
+                        <p><strong>Chức vụ:</strong> <input type="text" id="student-role" disabled></p>
+                        <p><strong>Chương trình đào tạo:</strong> <input type="text" id="student-program" disabled></p>
+                    </div>
+                    <button id="edit-info-btn" onclick="enableEdit()">Cập nhật thông tin</button>
+                    <button id="save-info-btn" onclick="saveStudentInfo()" style="display: none;">Lưu thông tin</button>
+                </div>
+            </div>
+            
         </div>
     </div>
 
@@ -75,24 +98,79 @@
             }
         });
         function loadStudentInfo() {
-            const studentRef = ref(db, `students/${currentUserId}`);
-            get(studentRef).then(snapshot => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    document.getElementById("student-name").textContent = data.name || "Chưa cập nhật";
-                    document.getElementById("student-id").textContent = data.studentId || "Chưa cập nhật";
-                    document.getElementById("student-major").textContent = data.major || "Chưa cập nhật";
-                    document.getElementById("student-year").textContent = data.year || "Chưa cập nhật";
-                    document.getElementById("credits-registered").textContent = data.credits || 0;
+    const studentRef = ref(db, `students/${currentUserId}`);
+    console.log("Current User ID:", currentUserId);
 
-                    // Kiểm tra và hiển thị ảnh đại diện nếu có
-                    const avatar = document.getElementById("student-avatar");
-                    avatar.src = data.avatar ? data.avatar : "default-avatar.png";
-                }
-            }).catch(error => {
-                console.error("Lỗi khi tải thông tin học sinh:", error);
-            });
+    get(studentRef).then(snapshot => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            document.getElementById("student-id").value = data.studentId || "";
+            document.getElementById("student-lastname").value = data.lastname || "";
+            document.getElementById("student-firstname").value = data.firstname || "";
+            document.getElementById("student-dob").value = data.dob || "";
+            document.getElementById("student-course").value = data.course || "";
+            document.getElementById("student-class").value = data.class || "";
+            document.getElementById("student-year").value = data.year || "";
+            document.getElementById("student-faculty").value = data.faculty || "";
+            document.getElementById("student-email").value = data.email || "";
+            document.getElementById("student-major").value = data.major || "";
+            document.getElementById("student-gender").value = data.gender || "Nam";
+            document.getElementById("student-system").value = data.system || "";
+            document.getElementById("student-status").value = data.status || "";
+            document.getElementById("student-role").value = data.role || "";
+            document.getElementById("student-program").value = data.program || "";
+
+            // Kiểm tra và hiển thị ảnh đại diện nếu có
+            const avatar = document.getElementById("student-avatar");
+            avatar.src = data.avatar ? data.avatar : "default-avatar.png";
         }
+    }).catch(error => {
+        console.error("Lỗi khi tải thông tin học sinh:", error);
+    });
+}
+
+        function enableEdit() {
+            document.querySelectorAll(".student-info-grid input, .student-info-grid select").forEach(input => {
+                input.disabled = false;
+            });
+            document.getElementById("edit-info-btn").style.display = "none";
+            document.getElementById("save-info-btn").style.display = "inline-block";
+        }
+
+
+        function saveStudentInfo() {
+    const studentData = {
+        studentId: document.getElementById("student-id").value,
+        lastname: document.getElementById("student-lastname").value,
+        firstname: document.getElementById("student-firstname").value,
+        dob: document.getElementById("student-dob").value,
+        course: document.getElementById("student-course").value,
+        class: document.getElementById("student-class").value,
+        year: document.getElementById("student-year").value,
+        faculty: document.getElementById("student-faculty").value,
+        email: document.getElementById("student-email").value,
+        major: document.getElementById("student-major").value,
+        gender: document.getElementById("student-gender").value,
+        system: document.getElementById("student-system").value,
+        status: document.getElementById("student-status").value,
+        role: document.getElementById("student-role").value,
+        program: document.getElementById("student-program").value
+    };
+
+    update(ref(db, `students/${currentUserId}`), studentData)
+        .then(() => {
+            alert("Cập nhật thông tin thành công!");
+            document.querySelectorAll(".student-info-grid input, .student-info-grid select").forEach(input => {
+                input.disabled = true;
+            });
+            document.getElementById("edit-info-btn").style.display = "inline-block";
+            document.getElementById("save-info-btn").style.display = "none";
+        })
+        .catch(error => {
+            console.error("Lỗi khi cập nhật thông tin:", error);
+            alert("Có lỗi xảy ra khi cập nhật. Vui lòng thử lại!");
+        });
+}
         function loadCourses() {
             const courseContainer = document.getElementById("course-container");
             courseContainer.innerHTML = "";

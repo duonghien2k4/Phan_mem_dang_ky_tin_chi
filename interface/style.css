@@ -94,3 +94,51 @@ body {
 .course-box:hover, .class-box:hover {
     background: #e0e0e0;
 }
+
+.student-info-container {
+    display: flex;
+    align-items: flex-start;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+.avatar {
+    width: 150px;
+    height: 200px;
+    border-radius: 5px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    margin-right: 20px;
+}
+
+.student-info-content {
+    flex: 1;
+}
+
+.student-info-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #003366;
+    border-bottom: 2px solid #ff6600;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.student-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 30px;
+}
+
+.student-info-grid p {
+    font-size: 16px;
+    color: #333;
+}
+
+.student-info-grid p strong {
+    color: #000;
+}
