@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script defer src="script.js"></script>
 </head>
+
 <body>
     <div class="sidebar">
+        <a onclick="showSection('home-info')">Trang chủ</a>
         <a onclick="showSection('student-info')">Thông tin học sinh</a>
         <a onclick="showSection('course-list')">Danh sách môn học</a>
         <a onclick="showSection('teacher-list')">Giáo viên</a>
@@ -42,7 +45,7 @@
                         <p><strong>Khoa quản lý:</strong> <input type="text" id="student-faculty" disabled></p>
                         <p><strong>Email:</strong> <input type="email" id="student-email" disabled></p>
                         <p><strong>Ngành:</strong> <input type="text" id="student-major" disabled></p>
-                        <p><strong>Giới tính:</strong> 
+                        <p><strong>Giới tính:</strong>
                             <select id="student-gender" disabled>
                                 <option value="Nam">Nam</option>
                                 <option value="Nữ">Nữ</option>
@@ -58,7 +61,7 @@
                     <button id="save-info-btn" onclick="saveStudentInfo()" style="display: none;">Lưu thông tin</button>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
@@ -89,7 +92,7 @@
                 currentUserEmail = user.email;
                 currentUserId = user.email.split('@')[0];
                 document.getElementById("user-email").textContent = currentUserEmail;
-               
+
                 loadStudentInfo();
                 loadCourses();
                 loadRegisteredClasses();
@@ -116,11 +119,11 @@
                 console.error("Lỗi khi tải thông tin học sinh:", error);
             });
         }
-        
+
         function loadCourses() {
             const courseContainer = document.getElementById("course-container");
             courseContainer.innerHTML = "";
-            
+
             const courses = [
                 { id: "CT101", name: "Lập trình C++" },
                 { id: "CT102", name: "Cấu trúc dữ liệu" }
@@ -138,7 +141,7 @@
         function showClasses(courseId) {
             const classContainer = document.getElementById("class-container");
             classContainer.innerHTML = "";
-            
+
             const classes = {
                 "CT101": [
                     { id: "CT101-L1", time: "Thứ 2, 8:00-10:00", teacher: "Nguyễn Văn A" }
@@ -170,7 +173,7 @@
         function loadRegisteredClasses() {
             const registeredList = document.getElementById("registered-classes");
             registeredList.innerHTML = "";
-            
+
             get(ref(db, `students/${currentUserId}/registeredClasses`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const classes = snapshot.val();
@@ -201,4 +204,5 @@
         }
     </script>
 </body>
+
 </html>
