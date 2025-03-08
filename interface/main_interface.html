@@ -5,19 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký tín chỉ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script defer src="script.js"></script>
 </head>
 
 <body>
     <div class="sidebar">
-        <a onclick="showSection('home-info')">Trang chủ</a>
-        <a onclick="showSection('student-info')">Thông tin học sinh</a>
-        <a onclick="showSection('course-list')">Danh sách môn học</a>
-        <a onclick="showSection('teacher-list')">Giáo viên</a>
-        <a onclick="showSection('schedule')">Thời khóa biểu</a>
-        <a onclick="showSection('registration')">Đăng ký học</a>
-        <button class="logout-button" onclick="logout()">Đăng xuất</button>
+        <img src="https://phenikaa-uni.edu.vn:3600/pu/vi/modules/logo-white_20210219042705.png" alt="Phenikaa Logo"
+            class="sidebar-logo" width="150">
+        <a onclick="showSection('home-info')"><i class="fas fa-home"></i> Trang chủ</a>
+        <a onclick="showSection('student-info')"><i class="fas fa-user-graduate"></i> Thông tin học sinh</a>
+        <a onclick="showSection('course-list')"><i class="fas fa-book"></i> Danh sách môn học</a>
+        <a onclick="showSection('teacher-list')"><i class="fas fa-chalkboard-teacher"></i> Giáo viên</a>
+        <a onclick="showSection('schedule')"><i class="fas fa-calendar-alt"></i> Thời khóa biểu</a>
+        <a onclick="showSection('registration')"><i class="fas fa-edit"></i> Đăng ký học</a>
+        <button class="logout-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
     </div>
     <div class="content">
         <h2>Chào mừng, <span id="user-email"></span></h2>
@@ -63,6 +66,7 @@
             </div>
 
         </div>
+
     </div>
 
     <script type="module">
@@ -100,73 +104,79 @@
                 window.location.href = "login.html";
             }
         });
-        function loadStudentInfo() {
-            const studentRef = ref(db, `students/${currentUserId}`);
-            get(studentRef).then(snapshot => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    document.getElementById("student-name").textContent = data.name || "Chưa cập nhật";
-                    document.getElementById("student-id").textContent = data.studentId || "Chưa cập nhật";
-                    document.getElementById("student-major").textContent = data.major || "Chưa cập nhật";
-                    document.getElementById("student-year").textContent = data.year || "Chưa cập nhật";
-                    document.getElementById("credits-registered").textContent = data.credits || 0;
-
-                    // Kiểm tra và hiển thị ảnh đại diện nếu có
-                    const avatar = document.getElementById("student-avatar");
-                    avatar.src = data.avatar ? data.avatar : "default-avatar.png";
-                }
-            }).catch(error => {
-                console.error("Lỗi khi tải thông tin học sinh:", error);
-            });
-        }
-
         function loadCourses() {
             const courseContainer = document.getElementById("course-container");
             courseContainer.innerHTML = "";
 
+            // Danh sách môn học & lịch cố định
             const courses = [
-                { id: "CT101", name: "Lập trình C++" },
-                { id: "CT102", name: "Cấu trúc dữ liệu" }
+                { id: "LTW", name: "Lập trình Web", times: [{ day: "Thứ 2", time: "6h45-9h25" }, { day: "Thứ 5", time: "9h30-12h10" }] },
+                { id: "LTC", name: "Lập trình C", times: [{ day: "Thứ 3", time: "9h30-12h10" }] },
+                { id: "LTCpp", name: "Lập trình C++", times: [{ day: "Thứ 2", time: "13h-15h40" }, { day: "Thứ 6", time: "15h45-18h25" }] },
+                { id: "CTDL", name: "Cấu trúc dữ liệu", times: [{ day: "Thứ 4", time: "6h45-9h25" }] },
+                { id: "HDH", name: "Hệ điều hành", times: [{ day: "Thứ 3", time: "13h-15h40" }, { day: "Thứ 5", time: "6h45-9h25" }] },
+                { id: "CSDL", name: "Cơ sở dữ liệu", times: [{ day: "Thứ 2", time: "9h30-12h10" }] },
+                { id: "THVP", name: "Tin học văn phòng", times: [{ day: "Thứ 4", time: "13h-15h40" }, { day: "Thứ 6", time: "9h30-12h10" }] },
+                { id: "AI", name: "Trí tuệ nhân tạo", times: [{ day: "Thứ 5", time: "15h45-18h25" }] },
+                { id: "DPT", name: "Đồ họa máy tính", times: [{ day: "Thứ 3", time: "6h45-9h25" }, { day: "Thứ 6", time: "13h-15h40" }] },
+                { id: "TTNT", name: "Xử lý ngôn ngữ tự nhiên", times: [{ day: "Thứ 4", time: "9h30-12h10" }] }
             ];
 
             courses.forEach(course => {
                 const courseBox = document.createElement("div");
                 courseBox.className = "course-box";
                 courseBox.textContent = course.name;
-                courseBox.onclick = () => showClasses(course.id);
+                courseBox.onclick = () => showClasses(course);
                 courseContainer.appendChild(courseBox);
             });
         }
 
-        function showClasses(courseId) {
+        function showClasses(course) {
             const classContainer = document.getElementById("class-container");
             classContainer.innerHTML = "";
 
-            const classes = {
-                "CT101": [
-                    { id: "CT101-L1", time: "Thứ 2, 8:00-10:00", teacher: "Nguyễn Văn A" }
-                ],
-                "CT102": [
-                    { id: "CT102-L1", time: "Thứ 4, 8:00-10:00", teacher: "Phạm Văn C" }
-                ]
+            const courseData = {
+                "LTW": { teachers: ["Nguyễn Văn A", "Trần Thị B"], rooms: ["P101", "P102"] },
+                "LTC": { teachers: ["Phạm Văn C"], rooms: ["P201"] },
+                "LTCpp": { teachers: ["Nguyễn Văn E", "Trần Văn F"], rooms: ["P301", "P302"] },
+                "CTDL": { teachers: ["Lê Thị G"], rooms: ["P401"] },
+                "HDH": { teachers: ["Phạm Văn I", "Nguyễn Văn J"], rooms: ["P501", "P502"] },
+                "CSDL": { teachers: ["Trần Minh K"], rooms: ["P601"] },
+                "THVP": { teachers: ["Nguyễn Thị M", "Phạm Văn N"], rooms: ["P701", "P702"] },
+                "AI": { teachers: ["Lê Thị O"], rooms: ["P801"] },
+                "DPT": { teachers: ["Trần Minh Q", "Nguyễn Văn R"], rooms: ["P901", "P902"] },
+                "TTNT": { teachers: ["Lê Thị S"], rooms: ["P1001"] }
             };
 
-            if (classes[courseId]) {
-                classes[courseId].forEach(cls => {
-                    const classBox = document.createElement("div");
-                    classBox.className = "class-box";
-                    classBox.innerHTML = `<strong>${cls.time}</strong><br>Giáo viên: ${cls.teacher}`;
-                    classBox.onclick = () => registerClass(cls.id);
-                    classContainer.appendChild(classBox);
-                });
-            }
+            let classData = courseData[course.id];
+            if (!classData) return;
+
+            course.times.forEach((timeSlot, index) => {
+                let classId = `${course.id}-N0${index + 1}`;
+                let teacher = classData.teachers[index % classData.teachers.length];
+                let room = classData.rooms[index % classData.rooms.length];
+
+                const classBox = document.createElement("div");
+                classBox.className = "class-box";
+                classBox.innerHTML = `<strong>${timeSlot.day} - ${timeSlot.time}</strong><br>Giáo viên: ${teacher}<br>Phòng: ${room}`;
+                classBox.onclick = () => registerClass(classId, timeSlot, teacher, room);
+                classContainer.appendChild(classBox);
+            });
         }
 
-        function registerClass(classId) {
+        function registerClass(classId, timeSlot, teacher, room) {
             const userRef = ref(db, `students/${currentUserId}/registeredClasses/${classId}`);
-            set(userRef, true).then(() => {
+            set(userRef, { day: timeSlot.day, time: timeSlot.time, teacher, room }).then(() => {
                 alert(`Đăng ký thành công lớp ${classId}`);
                 loadRegisteredClasses();
+            });
+        }
+
+        function unregisterClass(classId) {
+            const userRef = ref(db, `students/${currentUserId}/registeredClasses/${classId}`);
+            remove(userRef).then(() => {
+                alert(`Đã hủy đăng ký lớp ${classId}`);
+                loadRegisteredClasses(); // Cập nhật lại danh sách đã đăng ký
             });
         }
 
@@ -178,11 +188,15 @@
                 if (snapshot.exists()) {
                     const classes = snapshot.val();
                     Object.keys(classes).forEach(classId => {
+                        const cls = classes[classId];
+
                         const li = document.createElement("li");
-                        li.textContent = classId;
+                        li.innerHTML = `<strong>${classId}</strong> - ${cls.day} - ${cls.time} - ${cls.teacher} - ${cls.room}`;
+
                         const removeBtn = document.createElement("button");
                         removeBtn.textContent = "Hủy";
                         removeBtn.onclick = () => unregisterClass(classId);
+
                         li.appendChild(removeBtn);
                         registeredList.appendChild(li);
                     });
@@ -190,12 +204,9 @@
             });
         }
 
-        function unregisterClass(classId) {
-            remove(ref(db, `students/${currentUserId}/registeredClasses/${classId}`)).then(() => {
-                alert(`Hủy đăng ký lớp ${classId} thành công`);
-                loadRegisteredClasses();
-            });
-        }
+
+        window.onload = loadCourses;
+
 
         function logout() {
             signOut(auth).then(() => {

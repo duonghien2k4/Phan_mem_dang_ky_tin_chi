@@ -4,6 +4,13 @@ body {
     margin: 0;
     height: 100vh;
 }
+.sidebar-logo {
+    display: block;
+    width: 80%;
+    padding-bottom: 15px;
+    max-width:150px;
+}
+
 .sidebar {
     width: 250px;
     background-color: #04284d;
@@ -11,52 +18,64 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
+
 .sidebar a {
+    width: 100%;
     color: white;
     text-decoration: none;
-    padding: 10px;
+    padding: 12px;
     margin: 5px 0;
-    background-color: #007bff;
+    background-color: #064a87; /* Màu gần giống với sidebar */
     border-radius: 5px;
     text-align: center;
     cursor: pointer;
+    font-weight: bold;
+    display: block;
 }
+
 .sidebar a:hover {
     background-color: #0056b3;
 }
+
 .content {
-    flex-grow: 1;
+    margin-left: 0; /* Để nội dung không bị đẩy qua bên phải */
     padding: 20px;
     background-color: #ecf0f1;
 }
-.hidden {
-    display: none;
-}
-.course-list, .teacher-list, .schedule, .registration {
-    display: none;
-}
+
 .table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    text-align: center;
 }
+
 .table, .table th, .table td {
     border: 1px solid black;
-    text-align: center;
-    padding: 8px;
+    padding: 10px;
+}
+
+.table th {
+    background-color: #064a87; /* Đồng bộ màu với sidebar */
+    color: white;
+    font-weight: bold;
 }
 
 .logout-button {
     position: absolute;
     bottom: 10px;
     left: 10px;
-    padding: 10px;
+    padding: 12px;
     background-color: red;
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    width: 10%;
+    text-align: center;
+    font-weight: bold;
 }
 
 .contact-bubble {
@@ -65,7 +84,7 @@ body {
     right: 20px;
     width: 50px;
     height: 50px;
-    background-color: blue;
+    background-color: #064a87;
     color: white;
     display: flex;
     align-items: center;
@@ -79,6 +98,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
 }
 
 .course-box, .class-box {
@@ -89,6 +109,7 @@ body {
     cursor: pointer;
     width: 200px;
     text-align: center;
+    font-weight: bold;
 }
 
 .course-box:hover, .class-box:hover {
