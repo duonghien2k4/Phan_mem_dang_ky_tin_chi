@@ -54,6 +54,7 @@
     margin-bottom: 10px;
 }
 .latest-courses {
+    position: relative;
     text-align: left;
     padding: 40px;
     background: #f9f9f9;
@@ -70,13 +71,22 @@
     font-weight: bold;
 }
 
+/* Container chứa danh sách khóa học */
+.course-container {
+    width: 900px; /* Hiển thị 3 khóa học cùng lúc */
+    overflow: hidden;
+    margin: auto;
+}
+
+/* Danh sách khóa học */
 .course-list {
     display: flex;
     gap: 15px;
-    overflow-x: auto;
-    padding: 20px 0;
+    width: 1800px; /* Đủ để chứa tất cả khóa học */
+    transition: transform 0.3s ease-in-out;
 }
 
+/* Thẻ khóa học */
 .course-card {
     background: white;
     padding: 20px;
@@ -85,6 +95,7 @@
     text-align: left;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
+    flex: 0 0 280px; /* Cố định kích thước */
 }
 
 .course-card:hover {
@@ -112,6 +123,7 @@
     color: black;
 }
 
+/* Màu nền tối */
 .dark-theme {
     background: black;
     color: white;
@@ -119,4 +131,31 @@
 
 .dark-theme .highlight {
     color: #0071e3;
+}
+
+/* Nút điều hướng */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.slider-btn.left {
+    left: 10px;
+}
+
+.slider-btn.right {
+    right: 10px;
+}
+
+.slider-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
 }

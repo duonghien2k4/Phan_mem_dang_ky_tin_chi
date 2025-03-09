@@ -31,57 +31,87 @@
                 <p>Quản lý việc đăng ký môn học một cách dễ dàng và thuận tiện.</p>
                 <a href="#" class="btn">Bắt đầu ngay</a>
             </section>
-        
+
             <!-- Thông tin người dùng -->
             <div class="welcome-section">
                 <h2>Chào mừng, <span id="user-email"></span></h2>
                 <p>Hệ thống giúp sinh viên dễ dàng đăng ký các môn học, xem lịch học và thông tin cá nhân.</p>
                 <p>Vui lòng chọn các mục trong thanh bên để thao tác.</p>
             </div>
-        
+
             <!-- Môn học mới nhất -->
             <section class="latest-courses">
                 <h2>Môn học mới nhất. <a href="#">Xem ngay.</a></h2>
-                <div class="course-list">
-                    <div class="course-card">
-                        <img src="math.jpg" alt="Toán cao cấp">
-                        <h3>Toán cao cấp</h3>
-                        <p>Học cách giải quyết các bài toán phức tạp.</p>
-                        <p class="credits">Số tín chỉ: 3</p>
-                    </div>
-                    <div class="course-card">
-                        <img src="cs.jpg" alt="Lập trình C++">
-                        <h3>Lập trình C++</h3>
-                        <p>Học lập trình hướng đối tượng với C++.</p>
-                        <p class="credits">Số tín chỉ: 4</p>
-                    </div>
-                    <div class="course-card dark-theme">
-                        <img src="ai.jpg" alt="Trí tuệ nhân tạo">
-                        <h3>Trí tuệ nhân tạo</h3>
-                        <p><span class="highlight">Khóa học đặc biệt</span></p>
-                        <p class="credits">Số tín chỉ: 5</p>
+
+                <!-- Nút chuyển đổi -->
+                <button id="prev-btn" class="slider-btn left">&lt;</button>
+                <button id="next-btn" class="slider-btn right">&gt;</button>
+
+                <!-- Danh sách khóa học -->
+                <div class="course-container">
+                    <div class="course-list">
+                        <div class="course-card"><img src="math.jpg" alt="Toán cao cấp">
+                            <h3>Toán cao cấp</h3>
+                            <p>Giải quyết các bài toán phức tạp.</p>
+                            <p class="credits">Số tín chỉ: 3</p>
+                        </div>
+                        <div class="course-card"><img src="cs.jpg" alt="Lập trình C++">
+                            <h3>Lập trình C++</h3>
+                            <p>Học lập trình hướng đối tượng.</p>
+                            <p class="credits">Số tín chỉ: 4</p>
+                        </div>
+                        <div class="course-card dark-theme"><img src="ai.jpg" alt="Trí tuệ nhân tạo">
+                            <h3>Trí tuệ nhân tạo</h3>
+                            <p><span class="highlight">Khóa học đặc biệt</span></p>
+                            <p class="credits">Số tín chỉ: 5</p>
+                        </div>
+                        <div class="course-card"><img src="db.jpg" alt="Cơ sở dữ liệu">
+                            <h3>Cơ sở dữ liệu</h3>
+                            <p>Quản lý dữ liệu chuyên sâu.</p>
+                            <p class="credits">Số tín chỉ: 3</p>
+                        </div>
+                        <div class="course-card"><img src="network.jpg" alt="Mạng máy tính">
+                            <h3>Mạng máy tính</h3>
+                            <p>Tìm hiểu về hệ thống mạng.</p>
+                            <p class="credits">Số tín chỉ: 3</p>
+                        </div>
+                        <div class="course-card dark-theme"><img src="ml.jpg" alt="Machine Learning">
+                            <h3>Machine Learning</h3>
+                            <p>Ứng dụng AI vào thực tế.</p>
+                            <p class="credits">Số tín chỉ: 4</p>
+                        </div>
+                        <div class="course-card dark-theme"><img src="ml.jpg" alt="Machine Learning">
+                            <h3>Machine Learning</h3>
+                            <p>Ứng dụng AI vào thực tế.</p>
+                            <p class="credits">Số tín chỉ: 4</p>
+                        </div>
+                        <div class="course-card dark-theme"><img src="ml.jpg" alt="Machine Learning">
+                            <h3>Machine Learning</h3>
+                            <p>Ứng dụng AI vào thực tế.</p>
+                            <p class="credits">Số tín chỉ: 4</p>
+                        </div>
                     </div>
                 </div>
             </section>
-        
+
             <!-- Features Section -->
             <section class="features">
                 <div class="feature">
                     <h2>Chọn khóa học dễ dàng</h2>
-                    <p>Tìm kiếm và đăng ký lớp học theo sở thích của bạn.</p>
+                    <p>Tìm kiếm và đăng ký lớp học theo sở thích.</p>
                 </div>
                 <div class="feature">
                     <h2>Quản lý thời khóa biểu</h2>
-                    <p>Xem lịch học chi tiết và tránh trùng lặp môn học.</p>
+                    <p>Xem lịch học chi tiết và tránh trùng lặp.</p>
                 </div>
                 <div class="feature">
                     <h2>Hỗ trợ 24/7</h2>
-                    <p>Liên hệ bộ phận hỗ trợ nếu bạn gặp vấn đề khi đăng ký.</p>
+                    <p>Liên hệ bộ phận hỗ trợ nếu gặp vấn đề.</p>
                 </div>
             </section>
         </div>
-        
-        
+
+
         <div id="registration" class="registration">
             <h2>Đăng ký học</h2>
             <div id="course-container" class="course-container"></div>
