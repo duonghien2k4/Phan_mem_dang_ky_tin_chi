@@ -4,15 +4,16 @@ body {
     margin: 0;
     height: 100vh;
 }
+
 .sidebar-logo {
     display: block;
     width: 80%;
     padding-bottom: 15px;
-    max-width:150px;
+    max-width: 150px;
 }
 
 .sidebar {
-    width: 250px;
+    width: 220px;
     background-color: #04284d;
     color: white;
     padding: 20px;
@@ -27,7 +28,8 @@ body {
     text-decoration: none;
     padding: 12px;
     margin: 5px 0;
-    background-color: #064a87; /* Màu gần giống với sidebar */
+    background-color: #064a87;
+    /* Màu gần giống với sidebar */
     border-radius: 5px;
     text-align: center;
     cursor: pointer;
@@ -40,7 +42,8 @@ body {
 }
 
 .content {
-    margin-left: 0; /* Để nội dung không bị đẩy qua bên phải */
+    margin-left: 0;
+    width: 100%;
     padding: 20px;
     background-color: #ecf0f1;
 }
@@ -52,13 +55,16 @@ body {
     text-align: center;
 }
 
-.table, .table th, .table td {
+.table,
+.table th,
+.table td {
     border: 1px solid black;
     padding: 10px;
 }
 
 .table th {
-    background-color: #064a87; /* Đồng bộ màu với sidebar */
+    background-color: #064a87;
+    /* Đồng bộ màu với sidebar */
     color: white;
     font-weight: bold;
 }
@@ -94,14 +100,16 @@ body {
     font-size: 20px;
 }
 
-.course-container, .class-container {
+.course-container,
+.class-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
 }
 
-.course-box, .class-box {
+.course-box,
+.class-box {
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -112,7 +120,8 @@ body {
     font-weight: bold;
 }
 
-.course-box:hover, .class-box:hover {
+.course-box:hover,
+.class-box:hover {
     background: #e0e0e0;
 }
 
@@ -163,3 +172,4 @@ body {
 .student-info-grid p strong {
     color: #000;
 }
+

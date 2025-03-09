@@ -7,6 +7,7 @@
     <title>Đăng ký tín chỉ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="trang_chu.css">
     <script defer src="script.js"></script>
 </head>
 
@@ -23,7 +24,64 @@
         <button class="logout-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
     </div>
     <div class="content">
-        <h2>Chào mừng, <span id="user-email"></span></h2>
+        <div id="home-info" class="home-info" style="display: none;">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1>Hệ thống đăng ký tín chỉ</h1>
+                <p>Quản lý việc đăng ký môn học một cách dễ dàng và thuận tiện.</p>
+                <a href="#" class="btn">Bắt đầu ngay</a>
+            </section>
+        
+            <!-- Thông tin người dùng -->
+            <div class="welcome-section">
+                <h2>Chào mừng, <span id="user-email"></span></h2>
+                <p>Hệ thống giúp sinh viên dễ dàng đăng ký các môn học, xem lịch học và thông tin cá nhân.</p>
+                <p>Vui lòng chọn các mục trong thanh bên để thao tác.</p>
+            </div>
+        
+            <!-- Môn học mới nhất -->
+            <section class="latest-courses">
+                <h2>Môn học mới nhất. <a href="#">Xem ngay.</a></h2>
+                <div class="course-list">
+                    <div class="course-card">
+                        <img src="math.jpg" alt="Toán cao cấp">
+                        <h3>Toán cao cấp</h3>
+                        <p>Học cách giải quyết các bài toán phức tạp.</p>
+                        <p class="credits">Số tín chỉ: 3</p>
+                    </div>
+                    <div class="course-card">
+                        <img src="cs.jpg" alt="Lập trình C++">
+                        <h3>Lập trình C++</h3>
+                        <p>Học lập trình hướng đối tượng với C++.</p>
+                        <p class="credits">Số tín chỉ: 4</p>
+                    </div>
+                    <div class="course-card dark-theme">
+                        <img src="ai.jpg" alt="Trí tuệ nhân tạo">
+                        <h3>Trí tuệ nhân tạo</h3>
+                        <p><span class="highlight">Khóa học đặc biệt</span></p>
+                        <p class="credits">Số tín chỉ: 5</p>
+                    </div>
+                </div>
+            </section>
+        
+            <!-- Features Section -->
+            <section class="features">
+                <div class="feature">
+                    <h2>Chọn khóa học dễ dàng</h2>
+                    <p>Tìm kiếm và đăng ký lớp học theo sở thích của bạn.</p>
+                </div>
+                <div class="feature">
+                    <h2>Quản lý thời khóa biểu</h2>
+                    <p>Xem lịch học chi tiết và tránh trùng lặp môn học.</p>
+                </div>
+                <div class="feature">
+                    <h2>Hỗ trợ 24/7</h2>
+                    <p>Liên hệ bộ phận hỗ trợ nếu bạn gặp vấn đề khi đăng ký.</p>
+                </div>
+            </section>
+        </div>
+        
+        
         <div id="registration" class="registration">
             <h2>Đăng ký học</h2>
             <div id="course-container" class="course-container"></div>
@@ -64,9 +122,7 @@
                     <button id="save-info-btn" onclick="saveStudentInfo()" style="display: none;">Lưu thông tin</button>
                 </div>
             </div>
-
         </div>
-
     </div>
 
     <script type="module">
@@ -188,26 +244,18 @@
                 if (snapshot.exists()) {
                     const classes = snapshot.val();
                     Object.keys(classes).forEach(classId => {
-                        const cls = classes[classId];
-
                         const li = document.createElement("li");
-                        li.innerHTML = `<strong>${classId}</strong> - ${cls.day} - ${cls.time} - ${cls.teacher} - ${cls.room}`;
-
+                        li.textContent = classId;
                         const removeBtn = document.createElement("button");
                         removeBtn.textContent = "Hủy";
                         removeBtn.onclick = () => unregisterClass(classId);
-
                         li.appendChild(removeBtn);
                         registeredList.appendChild(li);
                     });
                 }
             });
         }
-
-
         window.onload = loadCourses;
-
-
         function logout() {
             signOut(auth).then(() => {
                 window.location.href = "login.html";
