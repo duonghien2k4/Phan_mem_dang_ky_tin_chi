@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<div class = "all">
     <div class="sidebar">
         <img src="https://phenikaa-uni.edu.vn:3600/pu/vi/modules/logo-white_20210219042705.png" alt="Phenikaa Logo"
             class="sidebar-logo" width="150">
@@ -27,11 +28,16 @@
         <div id="home-info" class="home-info" style="display: none;">
             <!-- Hero Section -->
             <section class="hero">
-                <h1>Hệ thống đăng ký tín chỉ</h1>
-                <p>Quản lý việc đăng ký môn học một cách dễ dàng và thuận tiện.</p>
-                <a href="#" class="btn">Bắt đầu ngay</a>
-            </section>
-
+                <div class="hero-container">
+                    <img src="../img/san_truong.jpg" alt="Mô tả ảnh" class="hero-image">
+                    <div class="hero-text">
+                        <h1>Hệ thống đăng ký tín chỉ</h1>
+                        <p>Quản lý việc đăng ký môn học một cách dễ dàng và thuận tiện.</p>
+                        <a href="#" class="btn">Bắt đầu ngay</a>
+                    </div>
+                </div>
+            </section>            
+            
             <!-- Thông tin người dùng -->
             <div class="welcome-section">
                 <h2>Chào mừng, <span id="user-email"></span></h2>
@@ -154,7 +160,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set, get, child, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
